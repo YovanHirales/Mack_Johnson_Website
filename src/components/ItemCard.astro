@@ -2,9 +2,9 @@
 const { title, price, img, alt } = Astro.props;
 ---
 
-<div class='card bg-transparent w-70'>
+<div class='card bg-transparent w-70 h-100'>
 	<figure class='px-10 pt-10'>
-		<img src={img} alt='Shoes' class='rounded-xl' />
+		<img src={img} alt={alt} class='rounded-xl' />
 	</figure>
 	<div class='card-body items-center text-center'>
 		<h2 class='font-RockSalt m-1 card-title'>{title}</h2>

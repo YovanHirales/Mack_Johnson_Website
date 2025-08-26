@@ -5,9 +5,26 @@ import ItemCard from '../components/ItemCard.astro';
 
 <Baselayout>
 	<!-- Item Container -->
-	<div class='bg-primary bg-cartoon-noise flex flex-wrap justify-center gap-4'>
-		<ItemCard title='item.1' price='60' img='/white_hoodie.png' />
-		<ItemCard title='item.2' price='60' img='/black_hoodie.png' />
-		<ItemCard title='item.3' price='45' img='/black_shirt.png' />
+	<div
+		class='bg-primary bg-cartoon-noise flex flex-wrap justify-around items-center align-middle min-h-[calc(100vh-15rem)]'
+	>
+		<ItemCard
+			title='item.1'
+			price='60'
+			img='/white_hoodie.png'
+			alt='White hoodie'
+		/>
+		<ItemCard
+			title='item.2'
+			price='60'
+			img='/black_hoodie.png'
+			alt='Black hoodie'
+		/>
+		<ItemCard
+			title='item.3'
+			price='45'
+			img='/black_shirt.png'
+			alt='Black t-shirt'
+		/>
 	</div>
 </Baselayout>
