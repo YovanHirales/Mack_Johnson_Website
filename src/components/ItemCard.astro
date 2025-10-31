@@ -1,10 +1,18 @@
 ---
-const { title, price, img, alt } = Astro.props;
+import ImageCarousel from './ImageCarousel.astro';
+
+const { title, price, img1, img2, alt, idSuffix } = Astro.props;
 ---
 
-<div class='card bg-transparent w-70 h-100'>
+<div class='card bg-transparent w-100 h-100'>
 	<figure class='px-10 pt-10'>
-		<img src={img} alt={alt} class='rounded-xl' />
+		{
+			img2 ? (
+				<ImageCarousel img1={img1} img2={img2} idSuffix={idSuffix} />
+			) : (
+				<img src={img1} alt={alt} />
+			)
+		}
 	</figure>
 	<div class='card-body items-center text-center'>
 		<h2 class='font-RockSalt m-1 card-title'>{title}</h2>

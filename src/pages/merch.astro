@@ -6,25 +6,22 @@ import ItemCard from '../components/ItemCard.astro';
 <Baselayout>
 	<!-- Item Container -->
 	<div
-		class='bg-primary bg-cartoon-noise flex flex-wrap justify-around items-center align-middle min-h-[calc(100vh-15rem)]'
+		class='py-15 bg-primary flex flex-wrap justify-around items-center align-middle gap-10 md:gap-0 md:px-20 md:max-h-[calc(100vh-15rem)]'
 	>
 		<ItemCard
 			title='item.1'
+			idSuffix='card-1'
 			price='60'
-			img='/white_hoodie.png'
-			alt='White hoodie'
-		/>
-		<ItemCard
-			title='item.2'
-			price='60'
-			img='/black_hoodie.png'
+			img1='/black_hoodie_front.png'
+			img2='/black_hoodie_back.png'
 			alt='Black hoodie'
 		/>
 		<ItemCard
-			title='item.3'
-			price='45'
-			img='/black_shirt.png'
-			alt='Black t-shirt'
+			title='item.2'
+			idSuffix='card-2'
+			price='60'
+			img1='/white_tee_front.png'
+			alt='White hoodie'
 		/>
 	</div>
 </Baselayout>

@@ -1,26 +1,49 @@
 ---
 import CartSummary from './CartSummary.astro';
+
+const { pathname } = Astro.url;
+
+const isIndex = ['/'].includes(pathname);
+const isMerch = ['/merch'].includes(pathname);
+const isMusic = ['/music'].includes(pathname);
+
+// Small Screens
+const mainDiv = isIndex
+	? 'h-20 flex items-center justify-end bg-transparent sticky top-0 z-50'
+	: 'h-20 flex items-center justify-end bg-primary sticky top-0 z-50';
+
+const buttonDiv = isIndex
+	? 'w-full flex items-center justify-end gap-2 lg:hidden mr-10'
+	: 'w-full flex items-center justify-between gap-2 md:hidden ml-5 mr-10';
+
+const dropdownDiv = isIndex
+	? 'dropdown dropdown-center stroke-red-500'
+	: 'dropdown dropdown-center stroke-black';
+
+const hamburgerButton = isIndex
+	? 'btn btn-ghost hover:stroke-black hover:bg-red-500'
+	: 'btn btn-ghost hover:bg-accent';
+
+const menuList = isIndex
+	? 'menu menu-sm border-0 dropdown-content z-[1] p-2 bg-none w-30 text-red-500 text-base font-RockSalt gap-3'
+	: 'menu menu-sm border-2 dropdown-content z-[1] p-2 shadow bg-accent rounded-box w-30 text-black text-base font-RockSalt gap-3';
+
+// Large Screens
+const largeScreenNavButtons = isIndex
+	? 'btn btn-ghost hover:bg-red-500 hover:text-black text-red-500'
+	: 'btn btn-ghost hover:bg-accent text-black';
 ---
 
-<div
-	class='h-20 flex items-center justify-between bg-primary shadow-sm sticky top-0 z-50'
->
-	<!-- Center: Site Title -->
-	<div class='m-4'>
-		<a href='/' class='text-black font-reenie-beanie-regular text-5xl'
-			>mack johnson</a
-		>
-	</div>
-
+<div class={mainDiv}>
 	<!-- Right - Small Screens: Cart | Hamburger Menu -->
-	<div class='flex items-center justify-end gap-2 md:hidden mr-1'>
-		<CartSummary />
-		<div class='dropdown dropdown-end'>
-			<button tabindex='0' role='button' class='btn btn-ghost hover:bg-accent'>
-				<!-- Hamburger icon -->
+	<div class={buttonDiv}>
+		{!isIndex && <CartSummary />}
+		<div class={dropdownDiv}>
+			<!-- Hamburger icon -->
+			<button tabindex='0' role='button' class={hamburgerButton}>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
-					class='h-5 w-5 stroke-black'
+					class='h-5 w-5'
 					fill='none'
 					viewBox='0 0 24 24'
 				>
@@ -33,32 +56,82 @@ import CartSummary from './CartSummary.astro';
 					</path>
 				</svg>
 			</button>
-			<ul
-				tabindex='0'
-				class='menu menu-sm border-2 dropdown-content mt-3 mr-3 z-[1] p-2 shadow bg-accent rounded-box w-30 text-black text-base font-RockSalt'
-			>
+			<ul tabindex='0' class={menuList}>
 				<!-- Pages -->
-				<li><a class='text-xl' href='/merch'>merch</a></li>
-				<li><a class='text-xl' href='/music'>music</a></li>
+				{
+					!isIndex && (
+						<li>
+							<a class='mx-auto text-xl' href='/'>
+								home
+							</a>
+						</li>
+					)
+				}
+				{
+					!isMerch && (
+						<li>
+							<a class='mx-auto text-xl' href='/merch'>
+								merch
+							</a>
+						</li>
+					)
+				}
+				{
+					!isMusic && (
+						<li>
+							<a class='mx-auto text-xl' href='/music'>
+								music
+							</a>
+						</li>
+					)
+				}
 			</ul>
 		</div>
 	</div>
+
 	<!-- Right: Medium/Large Screens -->
-	<div class='hidden sm:block md:hidden lg:block m-2'>
-		<ul class='menu menu-horizontal gap-4 px-1 text-base font-RockSalt'>
-			<li>
-				<button class='btn btn-ghost hover:bg-accent'
-					><a class='text-xl' href='/merch'>merch</a></button
-				>
-			</li>
-			<li>
-				<button class='btn btn-ghost hover:bg-accent'
-					><a class='text-xl' href='/music'>music</a></button
-				>
-			</li>
-			<li>
-				<CartSummary />
-			</li>
+	<div class='hidden lg:block mr-20'>
+		<ul class='menu menu-horizontal gap-15 px-1 text-base font-RockSalt'>
+			{
+				!isIndex && (
+					<li>
+						<button class={largeScreenNavButtons}>
+							<a class='text-xl' href='/'>
+								home
+							</a>
+						</button>
+					</li>
+				)
+			}
+			{
+				!isMerch && (
+					<li>
+						<button class={largeScreenNavButtons}>
+							<a class='text-xl' href='/merch'>
+								merch
+							</a>
+						</button>
+					</li>
+				)
+			}
+			{
+				!isMusic && (
+					<li>
+						<button class={largeScreenNavButtons}>
+							<a class='text-xl' href='/music'>
+								music
+							</a>
+						</button>
+					</li>
+				)
+			}
+			{
+				!isIndex && (
+					<li>
+						<CartSummary />
+					</li>
+				)
+			}
 		</ul>
 	</div>
 

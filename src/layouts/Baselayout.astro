@@ -2,6 +2,10 @@
 import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+
+const { pathname } = Astro.url;
+
+const hideNavAndFooter = ['/'].includes(pathname);
 ---
 
 <html lang='en' data-theme='mytheme'>
@@ -14,16 +18,17 @@ import Footer from '../components/Footer.astro';
 			href='https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Reenie+Beanie&family=Rock+Salt&display=swap'
 			rel='stylesheet'
 		/>
-		<link rel='preload' as='image' href='/hero.jpg' />
+		<link rel='preload' as='video' href='/hero_video.mp4' />
 		<meta name='viewport' content='width=device-width' />
 		<meta name='generator' content={Astro.generator} />
 		<title>mack johnson</title>
 	</head>
 	<body>
+		<!-- {!hideNavAndFooter && <Navbar />} -->
 		<Navbar />
 		<main>
 			<slot />
 		</main>
-		<Footer />
+		{!hideNavAndFooter && <Footer />}
 	</body>
 </html>

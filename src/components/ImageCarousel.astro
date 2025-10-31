@@ -1,0 +1,96 @@
+---
+/**
+ * Props:
+ *  - idSuffix: string (unique per instance)
+ *  - img1, img2: string URLs
+ *  - (optional) more images: pass an array if you want; see comment below
+ */
+const { idSuffix, img1, img2 } = Astro.props;
+// If you later want N slides, you can switch to: const images = [img1, img2, ...];
+---
+
+<div id={`carousel-${idSuffix}`} data-suffix={idSuffix} class='relative'>
+	<!-- Track: DaisyUI's carousel already uses horizontal scroll + snap -->
+	<div class='carousel w-full'>
+		<!-- Slide 1 -->
+		<div class='carousel-item w-full'>
+			<img src={img1} alt='Slide 1' class='w-full object-cover' />
+		</div>
+
+		<!-- Slide 2 -->
+		<div class='carousel-item w-full'>
+			<img
+				src={img2}
+				alt='Slide 2'
+				class='w-full object-cover'
+				loading='lazy'
+			/>
+		</div>
+	</div>
+
+	<!-- Overlayed controls (one set) -->
+	<div
+		class='pointer-events-none absolute inset-0 flex items-center justify-between px-4'
+	>
+		<button
+			class='pointer-events-auto hover:bg-accent btn-ghost btn btn-circle -ml-8 mb-15'
+			type='button'
+			aria-label='Previous slide'
+			data-prev>❮</button
+		>
+		<button
+			class='pointer-events-auto hover:bg-accent btn-ghost btn btn-circle -mr-8 mb-15'
+			type='button'
+			aria-label='Next slide'
+			data-next>❯</button
+		>
+	</div>
+</div>
+
+<script>
+	const root = document.querySelector('[data-suffix]');
+	if (!root) {
+		console.error('Carousel root element not found.');
+	} else {
+		const track = root.querySelector('.carousel');
+		const slides = Array.from(
+			root.querySelectorAll('.carousel-item')
+		) as HTMLElement[];
+
+		let index = 0;
+
+		// Keep index in sync if user scrolls/swipes manually
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const e of entries) {
+					if (e.isIntersecting) {
+						index = slides.indexOf(e.target as HTMLElement);
+					}
+				}
+			},
+			{ root: track, threshold: 0.6 }
+		);
+		slides.forEach((s) => io.observe(s));
+
+		function goTo(i: number) {
+			// modulo wrap
+			index = (i + slides.length) % slides.length;
+			// scroll to the left offset of the target slide
+			if (track) {
+				track.scrollTo({
+					left: (slides[index] as HTMLElement).offsetLeft,
+					behavior: 'smooth',
+				});
+			}
+		}
+
+		const prevBtn = root.querySelector('[data-prev]');
+		const nextBtn = root.querySelector('[data-next]');
+		if (prevBtn) {
+			prevBtn.addEventListener('click', () => goTo(index - 1));
+		}
+		if (nextBtn) {
+			nextBtn.addEventListener('click', () => goTo(index + 1));
+		}
+	}
+</script>

@@ -1,0 +1,256 @@
+---
+/// <reference types="astro/client" />
+// AddToCartButton.astro
+// Props: itemId (string), sizes (optional override)
+const { itemId, sizes = ['S', 'M', 'L'] } = Astro.props;
+---
+
+<div class='relative inline-block' data-state='idle' id={`add-${itemId}`}>
+	<!-- Plus button -->
+	<button
+		id={`add-btn-${itemId}`}
+		type='button'
+		aria-haspopup='menu'
+		aria-expanded='false'
+		aria-controls={`menu-${itemId}`}
+		aria-label='Add to cart'
+		class='group flex h-12 w-12 items-center justify-center rounded-full bg-white/80 backdrop-blur text-gray-900 shadow-md transition-transform duration-200 ease-out hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500'
+	>
+		<!-- Plus icon -->
+		<svg
+			class='h-6 w-6 transition-transform duration-200 ease-out'
+			data-plus
+			viewBox='0 0 24 24'
+			fill='none'
+			stroke='currentColor'
+			stroke-width='2'
+			stroke-linecap='round'
+			stroke-linejoin='round'
+		>
+			<path d='M12 5v14M5 12h14'></path>
+		</svg>
+
+		<!-- Spinner (hidden by default) -->
+		<svg
+			class='h-5 w-5 animate-spin text-gray-900 hidden'
+			data-spinner
+			viewBox='0 0 24 24'
+			fill='none'
+		>
+			<circle
+				class='opacity-25'
+				cx='12'
+				cy='12'
+				r='10'
+				stroke='currentColor'
+				stroke-width='4'></circle>
+			<path
+				class='opacity-75'
+				fill='currentColor'
+				d='M4 12a8 8 0 018-8v4A4 4 0 004 12z'></path>
+		</svg>
+
+		<!-- Checkmark (hidden by default) -->
+		<svg
+			class='h-6 w-6 text-emerald-600 hidden'
+			data-check
+			viewBox='0 0 24 24'
+			fill='none'
+			stroke='currentColor'
+			stroke-width='2'
+			stroke-linecap='round'
+			stroke-linejoin='round'
+		>
+			<path d='M20 6L9 17l-5-5'></path>
+		</svg>
+	</button>
+
+	<!-- Popover menu -->
+	<div
+		id={`menu-${itemId}`}
+		role='menu'
+		aria-label='Choose size'
+		aria-hidden='true'
+		class='absolute left-1/2 top-[calc(100%+8px)] z-20 -translate-x-1/2 origin-top overflow-hidden rounded-xl bg-white/90 p-2 shadow-lg backdrop-blur transition-all duration-200 ease-out pointer-events-none opacity-0 scale-95'
+	>
+		<div class='flex gap-1'>
+			{
+				sizes.map((label: unknown, idx: unknown) => (
+					<button
+						type='button'
+						role='menuitemradio'
+						aria-checked='false'
+						data-size={label}
+						class='size-btn select-none rounded-lg px-3 py-2 text-sm font-medium text-gray-900/90 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 transition-transform duration-100 ease-out active:scale-95'
+						tabindex='-1'
+						data-index={idx}
+					>
+						{label}
+					</button>
+				))
+			}
+		</div>
+	</div>
+</div>
+
+<script type='module'>
+	// Minimal state machine per button instance
+	const root = document.getElementById('add-{{itemId}}');
+	const btn = document.getElementById('add-btn-{{itemId}}');
+	const menu = document.getElementById('menu-{{itemId}}');
+	const plus = btn.querySelector('[data-plus]');
+	const spin = btn.querySelector('[data-spinner]');
+	const check = btn.querySelector('[data-check]');
+	const sizeButtons = Array.from(menu.querySelectorAll('.size-btn'));
+
+	let open = false;
+	let loading = false;
+	let lastSize = null;
+
+	function openMenu() {
+		if (loading) return;
+		open = true;
+		root.dataset.state = 'open';
+		btn.setAttribute('aria-expanded', 'true');
+		menu.setAttribute('aria-hidden', 'false');
+		// Show menu (animate)
+		menu.classList.remove('pointer-events-none', 'opacity-0', 'scale-95');
+		menu.classList.add('pointer-events-auto', 'opacity-100', 'scale-100');
+		// Rotate plus into ×
+		plus.style.transform = 'rotate(45deg)';
+		// Focus first option
+		sizeButtons[0]?.focus();
+	}
+
+	function closeMenu() {
+		open = false;
+		root.dataset.state = 'idle';
+		btn.setAttribute('aria-expanded', 'false');
+		menu.setAttribute('aria-hidden', 'true');
+		// Hide menu (animate)
+		menu.classList.add('pointer-events-none', 'opacity-0', 'scale-95');
+		menu.classList.remove('pointer-events-auto', 'opacity-100', 'scale-100');
+		// Reset plus icon
+		plus.style.transform = 'rotate(0deg)';
+		// Return focus
+		btn.focus();
+	}
+
+	function setLoading(isLoading) {
+		loading = isLoading;
+		if (isLoading) {
+			plus.classList.add('hidden');
+			check.classList.add('hidden');
+			spin.classList.remove('hidden');
+			btn.setAttribute('aria-busy', 'true');
+		} else {
+			spin.classList.add('hidden');
+			btn.removeAttribute('aria-busy');
+		}
+	}
+
+	function showCheck() {
+		plus.classList.add('hidden');
+		spin.classList.add('hidden');
+		check.classList.remove('hidden');
+		// brief success state
+		setTimeout(() => {
+			check.classList.add('hidden');
+			plus.classList.remove('hidden');
+		}, 500);
+	}
+
+	async function addToCart({ id, size }) {
+		// TODO: replace with your API call (fetch/POST). Keeping optimistic UI.
+		// Example:
+		// await fetch('/api/cart', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id, size, qty:1 }) })
+		return new Promise((resolve) => setTimeout(resolve, 350));
+	}
+
+	// Click handlers
+	btn.addEventListener('click', (e) => {
+		// If user has a "lastSize", you could make short-click = quick add, long-press = open menu.
+		// For now: toggle menu.
+		open ? closeMenu() : openMenu();
+	});
+
+	sizeButtons.forEach((b, i) => {
+		b.addEventListener('click', async () => {
+			if (loading) return;
+			const size = b.dataset.size;
+			lastSize = size;
+
+			// a11y radio feedback
+			sizeButtons.forEach((s) => s.setAttribute('aria-checked', 'false'));
+			b.setAttribute('aria-checked', 'true');
+
+			// optimistic add
+			setLoading(true);
+			try {
+				await addToCart({ id: '{{itemId}}', size });
+				setLoading(false);
+				showCheck();
+				closeMenu();
+			} catch (err) {
+				// error feedback: brief shake
+				setLoading(false);
+				menu.classList.add('animate-[wiggle_150ms_ease-in-out_2]');
+				setTimeout(
+					() => menu.classList.remove('animate-[wiggle_150ms_ease-in-out_2]'),
+					400
+				);
+			}
+		});
+
+		// Keyboard support on size items
+		b.addEventListener('keydown', (ev) => {
+			const { key } = ev;
+			if (key === 'Escape') {
+				ev.preventDefault();
+				closeMenu();
+			}
+			if (key === 'ArrowRight') {
+				ev.preventDefault();
+				sizeButtons[(i + 1) % sizeButtons.length].focus();
+			}
+			if (key === 'ArrowLeft') {
+				ev.preventDefault();
+				sizeButtons[(i - 1 + sizeButtons.length) % sizeButtons.length].focus();
+			}
+		});
+	});
+
+	// Close on outside click
+	document.addEventListener('click', (ev) => {
+		if (!open) return;
+		if (!root.contains(ev.target)) closeMenu();
+	});
+
+	// Close on Esc from button
+	btn.addEventListener('keydown', (ev) => {
+		if (ev.key === 'Escape' && open) {
+			ev.preventDefault();
+			closeMenu();
+		}
+		if ((ev.key === 'Enter' || ev.key === ' ') && !open) {
+			ev.preventDefault();
+			openMenu();
+		}
+	});
+</script>
+
+<style is:global>
+	/* Optional tiny wiggle keyframes for error */
+	@keyframes wiggle {
+		0%,
+		100% {
+			transform: translateX(0);
+		}
+		25% {
+			transform: translateX(-3px);
+		}
+		75% {
+			transform: translateX(3px);
+		}
+	}
+</style>

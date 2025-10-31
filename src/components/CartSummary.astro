@@ -1,16 +1,23 @@
 ---
+const { pathname } = Astro.url;
+const isIndex = ['/'].includes(pathname);
 
+const svgClass = isIndex
+	? 'size-6 stroke-red-500 hover:stroke-black'
+	: 'size-6 stroke-black';
+const buttonClass = isIndex
+	? 'btn btn-ghost hover:bg-red-500 hover:stroke-black'
+	: 'btn btn-ghost hover:bg-accent';
 ---
 
-<button role='button' class='btn btn-ghost hover:bg-accent'>
+<button role='button' class={buttonClass}>
 	<a href='/checkout'>
 		<svg
 			xmlns='http://www.w3.org/2000/svg'
 			fill='none'
 			viewBox='0 0 24 24'
 			stroke-width='1.5'
-			stroke='currentColor'
-			class='size-6'
+			class={svgClass}
 		>
 			<path
 				stroke-linecap='round'
