@@ -3,9 +3,9 @@ import CartSummary from './CartSummary.astro';
 
 const { pathname } = Astro.url;
 
-const isIndex = ['/'].includes(pathname);
-const isMerch = ['/merch'].includes(pathname);
-const isMusic = ['/music'].includes(pathname);
+const isIndex = pathname === '/';
+const isMerch = pathname.startsWith('/merch');
+const isMusic = pathname.startsWith('/music');
 
 // Small Screens
 const mainDiv = isIndex

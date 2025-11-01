@@ -4,45 +4,51 @@ import Baselayout from '../layouts/Baselayout.astro';
 
 <Baselayout
 	><div
-		class='card bg-primary min-h-[calc(100vh-15rem)] w-full md:flex-row md:items-center md:justify-center'
+		class='card bg-primary min-h-[calc(100vh-15rem)] md:flex-row md:items-center md:justify-center'
 	>
-		<figure class='px-10 pt-10'>
-			<img
-				src='/album_cover.png'
-				alt='Mack Johnsons profile picture'
-				class='w-70 h-70'
-			/>
-		</figure>
-		<div class='card-body items-center text-center'>
-			<div class='card-actions flex flex-col gap-3'>
-				<button class='btn btn-accent w-85 text-black'
-					><a
-						href='https://open.spotify.com/artist/10ZELYHJ1rnKjSWWfGPqVT'
-						target='_blank'
-						rel='noopener noreferrer'>Spotify</a
-					></button
-				>
-				<button class='btn btn-accent w-85 text-black'
-					><a
-						href='https://music.apple.com/us/artist/mack-johnson/1490803805'
-						target='_blank'
-						rel='noopener noreferrer'>Apple Music</a
-					></button
-				>
-				<button class='btn btn-accent w-85 text-black'
-					><a
-						href='https://www.youtube.com/watch?v=5rTDHdrH0Nk&ab_channel=MackJohnson-Topic'
-						target='_blank'
-						rel='noopener noreferrer'>"August" Music Video</a
-					></button
-				>
-				<button class='btn btn-accent w-85 text-black'
-					><a
-						href='https://soundcloud.com/bymackjohnson'
-						target='_blank'
-						rel='noopener noreferrer'>SoundCloud</a
-					></button
-				>
+		<div class='md:w-250 md:flex md:items-center md:justify-between'>
+			<figure class='px-10 pt-10'>
+				<img
+					src='/album_cover.png'
+					alt='Mack Johnsons profile picture'
+					class='w-70 h-70 md:w-100 md:h-100'
+				/>
+			</figure>
+			<div class='card-body items-center text-center'>
+				<div class='card-actions flex flex-col gap-3 md:gap-8'>
+					<button class='btn btn-accent w-85 text-black'
+						><a
+							href='https://open.spotify.com/artist/10ZELYHJ1rnKjSWWfGPqVT'
+							target='_blank'
+							rel='noopener noreferrer'
+							class='w-full'>Spotify</a
+						></button
+					>
+					<button class='btn btn-accent w-85 text-black'
+						><a
+							href='https://music.apple.com/us/artist/mack-johnson/1490803805'
+							target='_blank'
+							rel='noopener noreferrer'
+							class='w-full'>Apple Music</a
+						></button
+					>
+					<button class='btn btn-accent w-85 text-black'
+						><a
+							href='https://www.youtube.com/watch?v=5rTDHdrH0Nk&ab_channel=MackJohnson-Topic'
+							target='_blank'
+							rel='noopener noreferrer'
+							class='w-full'>"August" Music Video</a
+						></button
+					>
+					<button class='btn btn-accent w-85 text-black'
+						><a
+							href='https://soundcloud.com/bymackjohnson'
+							target='_blank'
+							rel='noopener noreferrer'
+							class='w-full'>SoundCloud</a
+						></button
+					>
+				</div>
 			</div>
 		</div>
 	</div>

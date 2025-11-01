@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import Analytics from '@vercel/analytics/astro';
 
 const { pathname } = Astro.url;
 
@@ -22,6 +23,7 @@ const hideNavAndFooter = ['/'].includes(pathname);
 		<meta name='viewport' content='width=device-width' />
 		<meta name='generator' content={Astro.generator} />
 		<title>mack johnson</title>
+		<Analytics />
 	</head>
 	<body>
 		<!-- {!hideNavAndFooter && <Navbar />} -->
