@@ -16,13 +16,14 @@ const { title, price, img1, img2, alt, idSuffix } = Astro.props;
 	</figure>
 	<div class='card-body items-center text-center'>
 		<h2 class='font-RockSalt m-1 card-title'>{title}</h2>
-		<p>
+		<!-- <p>
 			${price}
-		</p>
+		</p> -->
 		<div class='card-actions'>
 			<button role='button'>
 				<!-- Add to cart icon -->
-				<svg
+				<p class='font-RockSalt'>coming soon</p>
+				<!-- <svg
 					xmlns='http://www.w3.org/2000/svg'
 					fill='none'
 					viewBox='0 0 24 24'
@@ -33,7 +34,7 @@ const { title, price, img1, img2, alt, idSuffix } = Astro.props;
 						stroke-linecap='round'
 						stroke-linejoin='round'
 						d='M12 4.5v15m7.5-7.5h-15'></path>
-				</svg>
+				</svg> -->
 			</button>
 		</div>
 	</div>

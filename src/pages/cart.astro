@@ -1,5 +1,12 @@
 ---
 import Baselayout from '../layouts/Baselayout.astro';
+import ItemCard from '../components/ItemCard.astro';
 ---
 
-<Baselayout> <div>cart</div> </Baselayout>
+<Baselayout>
+	<div
+		class='min-h-[calc(100vh-15rem)] bg-primary flex-col items-center justify-center'
+	>
+		<ItemCard />
+	</div>
+</Baselayout>

@@ -14,30 +14,31 @@ const mainDiv = isIndex
 
 const buttonDiv = isIndex
 	? 'w-full flex items-center justify-end gap-2 lg:hidden mr-10'
-	: 'w-full flex items-center justify-between gap-2 md:hidden ml-5 mr-10';
+	: // change justify here when adding cart back
+		'w-full flex items-center justify-end gap-2 md:hidden ml-5 mr-10';
 
 const dropdownDiv = isIndex
 	? 'dropdown dropdown-center stroke-red-500'
-	: 'dropdown dropdown-center stroke-black';
+	: 'dropdown dropdown-center stroke-red-500';
 
 const hamburgerButton = isIndex
 	? 'btn btn-ghost hover:stroke-black hover:bg-red-500'
-	: 'btn btn-ghost hover:bg-accent';
+	: 'btn btn-ghost hover:stroke-black hover:bg-red-500';
 
 const menuList = isIndex
 	? 'menu menu-sm border-0 dropdown-content z-[1] p-2 bg-none w-30 text-red-500 text-base font-RockSalt gap-3'
-	: 'menu menu-sm border-2 dropdown-content z-[1] p-2 shadow bg-accent rounded-box w-30 text-black text-base font-RockSalt gap-3';
+	: 'menu menu-sm border-2 dropdown-content z-[1] p-2 shadow bg-red-500 rounded-box w-30 text-black text-base font-RockSalt gap-3';
 
 // Large Screens
 const largeScreenNavButtons = isIndex
 	? 'btn btn-ghost hover:bg-red-500 hover:text-black text-red-500'
-	: 'btn btn-ghost hover:bg-accent text-black';
+	: 'btn btn-ghost hover:bg-red-500 hover:text-black text-red-500';
 ---
 
 <div class={mainDiv}>
 	<!-- Right - Small Screens: Cart | Hamburger Menu -->
 	<div class={buttonDiv}>
-		{!isIndex && <CartSummary />}
+		<!-- {!isIndex && <CartSummary />} -->
 		<div class={dropdownDiv}>
 			<!-- Hamburger icon -->
 			<button tabindex='0' role='button' class={hamburgerButton}>
@@ -125,13 +126,13 @@ const largeScreenNavButtons = isIndex
 					</li>
 				)
 			}
-			{
+			<!-- {
 				!isIndex && (
 					<li>
 						<CartSummary />
 					</li>
 				)
-			}
+			} -->
 		</ul>
 	</div>
 
